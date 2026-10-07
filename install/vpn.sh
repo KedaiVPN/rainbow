@@ -172,7 +172,7 @@ cat >/var/www/html/index.html <<EOF
         <div class="contact">
             <h2>Kontak Saya</h2>
             <p>
-                \360\237\223\236 <a href="https://whatsapp.nevpn.site" target="_blank">WhatsApp</a>
+                📞 <a href="https://whatsapp.nevpn.site" target="_blank">WhatsApp</a>
                 | \360\237\223\254 <a href="https://nevpn.site" target="_blank">Telegram</a>
             </p>
         </div>

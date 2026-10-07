@@ -12,19 +12,19 @@ MYIP=$(cat /usr/bin/.ipvps)
 	eval $(wget -qO- "https://drive.google.com/u/4/uc?id=${ID_FILE}")
     else
 echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
-echo -e "\033[41;1m \342\232\240\357\270\217       AKSES DI TOLAK         \342\232\240\357\270\217 \033[0m"
+echo -e "\033[41;1m ⚠️       AKSES DI TOLAK         ⚠️ \033[0m"
 echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
 echo -e ""
-echo -e "        \033[91;1m\342\235\214 SCRIPT LOCKED \342\235\214\033[0m"
+echo -e "        \033[91;1m❌ SCRIPT LOCKED ❌\033[0m"
 echo -e ""
-echo -e "  \033[0;33m\360\237\224\222 Your VPS\033[0m $ipsaya \033[0;33mHas been Banned\033[0m"
+echo -e "  \033[0;33m🔒 Your VPS\033[0m $ipsaya \033[0;33mHas been Banned\033[0m"
 echo -e ""
-echo -e "  \033[91m\342\232\240\357\270\217  Masa Aktif Sudah Habis \342\232\240\357\270\217\033[0m"
-echo -e "  \033[0;33m\360\237\222\241 Beli izin resmi hanya dari Admin!\033[0m"
+echo -e "  \033[91m⚠️  Masa Aktif Sudah Habis ⚠️\033[0m"
+echo -e "  \033[0;33m💡 Beli izin resmi hanya dari Admin!\033[0m"
 echo -e ""
-echo -e "  \033[92;1m\360\237\223\236 Contact Admin:\033[0m"
-echo -e "  \033[96m\360\237\214\215 Telegram: https://nevpn.site\033[0m"
-echo -e "  \033[96m\360\237\223\261 WhatsApp: https://whatsapp.nevpn.site\033[0m"
+echo -e "  \033[92;1m📞 Contact Admin:\033[0m"
+echo -e "  \033[96m🌍 Telegram: https://nevpn.site\033[0m"
+echo -e "  \033[96m📱 WhatsApp: https://whatsapp.nevpn.site\033[0m"
 echo -e ""
 echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
 rm -rf /root/*
@@ -217,7 +217,7 @@ while [[ $RETRY_COUNT -lt $MAX_RETRY ]]; do
         echo "\342\234\205 Berhasil mengunduh menu.zip!"
         break
     else
-        echo "\342\235\214 Gagal mengunduh, mencoba lagi dalam 10 detik..."
+        echo "❌ Gagal mengunduh, mencoba lagi dalam 10 detik..."
         sleep 10
         ((RETRY_COUNT++))
     fi
@@ -233,10 +233,10 @@ if [[ -f "$MENU_ZIP" ]]; then
         rm -rf "$MENU_DIR" "$MENU_ZIP"
         echo "\342\234\205 Menu berhasil diinstall!"
     else
-        echo "\342\235\214 Gagal mengekstrak menu.zip!"
+        echo "❌ Gagal mengekstrak menu.zip!"
     fi
 else
-    echo "\342\235\214 Gagal mendapatkan menu.zip setelah $MAX_RETRY percobaan."
+    echo "❌ Gagal mendapatkan menu.zip setelah $MAX_RETRY percobaan."
     exit 1
 fi
 } &> /dev/null &
@@ -246,16 +246,16 @@ serverV=$(curl -sS ${REPO}versi)
 echo $serverV > /opt/.ver
 rm /root/*.sh*  &> /dev/null
 # Pesan akhir
-TEXT="\342\227\207\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\227\207
-<b>   \342\232\240\357\270\217NOTIF UPDATE SCRIPT\342\232\240\357\270\217</b>
+TEXT="◇━━━━━━━━━━━━━━◇
+<b>   ⚠️NOTIF UPDATE SCRIPT⚠️</b>
 <b>     Update Script Sukses</b>
-\342\227\207\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\227\207
+◇━━━━━━━━━━━━━━◇
 <b>IP VPS  :</b> ${MYIP} 
 <b>DOMAIN  :</b> ${domain}
 <b>Version :</b> ${serverV}
 <b>USER    :</b> ${username}
 <b>MASA    :</b> $certifacate DAY
-\342\227\207\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\227\207
+◇━━━━━━━━━━━━━━◇
 BY BOT : @Newbie_Store24
 "
 curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null

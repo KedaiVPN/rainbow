@@ -16,19 +16,19 @@ function CEKIP () {
         Pasang
     else
 echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
-echo -e "\033[41;1m \342\232\240\357\270\217       AKSES DI TOLAK         \342\232\240\357\270\217 \033[0m"
+echo -e "\033[41;1m ⚠️       AKSES DI TOLAK         ⚠️ \033[0m"
 echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
 echo -e ""
-echo -e "        \033[91;1m\342\235\214 SCRIPT LOCKED \342\235\214\033[0m"
+echo -e "        \033[91;1m❌ SCRIPT LOCKED ❌\033[0m"
 echo -e ""
-echo -e "  \033[0;33m\360\237\224\222 Your VPS\033[0m $ipsaya \033[0;33mHas been Banned\033[0m"
+echo -e "  \033[0;33m🔒 Your VPS\033[0m $ipsaya \033[0;33mHas been Banned\033[0m"
 echo -e ""
-echo -e "  \033[91m\342\232\240\357\270\217  Masa Aktif Sudah Habis \342\232\240\357\270\217\033[0m"
-echo -e "  \033[0;33m\360\237\222\241 Beli izin resmi hanya dari Admin!\033[0m"
+echo -e "  \033[91m⚠️  Masa Aktif Sudah Habis ⚠️\033[0m"
+echo -e "  \033[0;33m💡 Beli izin resmi hanya dari Admin!\033[0m"
 echo -e ""
-echo -e "  \033[92;1m\360\237\223\236 Contact Admin:\033[0m"
-echo -e "  \033[96m\360\237\214\215 Telegram: https://nevpn.site\033[0m"
-echo -e "  \033[96m\360\237\223\261 WhatsApp: https://whatsapp.nevpn.site\033[0m"
+echo -e "  \033[92;1m📞 Contact Admin:\033[0m"
+echo -e "  \033[96m🌍 Telegram: https://nevpn.site\033[0m"
+echo -e "  \033[96m📱 WhatsApp: https://whatsapp.nevpn.site\033[0m"
 echo -e ""
 echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
     ATTEMPTS=$(cat "$ILLEGAL_FILE")
@@ -410,9 +410,9 @@ d2=$(date -d "$today" +%s)
 EXP=$(( (d1 - d2) / 86400 ))
 
 TEXT="
-<code>\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201</code>
-<code>\342\232\240\357\270\217 AUTOSCRIPT PREMIUM \342\232\240\357\270\217</code>
-<code>\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201</code>
+<code>━━━━━━━━━━━━━━━━━━━━</code>
+<code>⚠️ AUTOSCRIPT PREMIUM ⚠️</code>
+<code>━━━━━━━━━━━━━━━━━━━━</code>
 <code>NAME : </code><code>${author}</code>
 <code>TIME : </code><code>${TIME} WIB</code>
 <code>DOMAIN : </code><code>${domain}</code>
@@ -421,9 +421,9 @@ TEXT="
 <code>OS LINUX : </code><code>${MODEL2}</code>
 <code>RAM : </code><code>${RAMMS} MB</code>
 <code>EXP SCRIPT : </code><code>$EXP Days</code>
-<code>\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201\342\224\201</code>
+<code>━━━━━━━━━━━━━━━━━━━━</code>
 <i> Notifikasi Installer Script...</i>
-"'&reply_markup={"inline_keyboard":[[{"text":"\360\237\224\245\341\264\217\312\200\341\264\205\341\264\207\312\200","url":"https://t.me/newbie_Store24"},{"text":"\360\237\224\245GRUP","url":"https://t.me/newbielearning"}]]}'
+"'&reply_markup={"inline_keyboard":[[{"text":"🔥ᴗʀᴅᴇʀ","url":"https://t.me/newbie_Store24"},{"text":"🔥GRUP","url":"https://t.me/newbielearning"}]]}'
 curl -s --max-time $TIMES -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
 clear
 }

@@ -115,7 +115,7 @@ setup_bot() {
 			MESSAGE="\360\237\232\200 *API-ServerSellVPN Installed* \360\237\232\200
 			\360\237\224\221 *Auth Key:* \`$AUTH_KEY\`
 			\360\237\214\220 *Server IP:* \`$SERVER_IP\`
-			\360\237\214\215 *Domain:* \`$DOMAIN\`"
+			🌍 *Domain:* \`$DOMAIN\`"
 
 	# Kirim notifikasi ke Telegram
 	curl -s -X POST "https://api.telegram.org/bot$KEYAPI/sendMessage" \

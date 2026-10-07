@@ -46,17 +46,17 @@ Auto Script Install XRAY/SSH Websocket Service
 <pre><code>curl -O https://raw.githubusercontent.com/bin456789/reinstall/main/reinstall.sh && bash reinstall.sh Ubuntu 24.04 && reboot</code></pre>
 
 ### INSTALL SCRIPT 
-<pre><code>apt update -y && apt install -y screen wget curl jq && wget -q https://raw.githubusercontent.com/kedaivpn/script/main/setup.sh && chmod +x setup.sh && screen -S install ./setup.sh
+<pre><code>apt update -y && apt install -y screen wget curl jq && wget -q https://raw.githubusercontent.com/KedaiVPN/rainbow/main/setup.sh && chmod +x setup.sh && screen -S install ./setup.sh
 </code></pre>
 
 ### PERINTAH UPDATE 
-<pre><code>wget -q https://raw.githubusercontent.com/kedaivpn/script/main/menu/update.sh && chmod +x update.sh && ./update.sh</code></pre>
+<pre><code>wget -q https://raw.githubusercontent.com/KedaiVPN/rainbow/main/menu/update.sh && chmod +x update.sh && ./update.sh</code></pre>
 
 ### PERINTAH BACKUP KHUSUS
 <pre><code>wget -qO /usr/sbin/backupot "https://raw.githubusercontent.com/diah082/vip/main/menu/backupot" && chmod +x /usr/sbin/backupot && backupot</code></pre>
 
 ### SCRIPT MIGRASI DATA LOKAL (EXPORTER)
-<pre><code>wget -qO /root/migrasidata.sh "https://raw.githubusercontent.com/KedaiVPN/script/main/migrasidata.sh" && chmod +x /root/migrasidata.sh && /root/migrasidata.sh</code></pre>
+<pre><code>wget -qO /root/migrasidata.sh "https://raw.githubusercontent.com/KedaiVPN/rainbow/main/migrasidata.sh" && chmod +x /root/migrasidata.sh && /root/migrasidata.sh</code></pre>
 
 ### TESTED ON OS 
 - UBUNTU 20.04 | 22 | 24.04 | 24.10

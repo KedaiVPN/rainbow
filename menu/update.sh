@@ -211,10 +211,10 @@ MENU_DIR="/root/menu"
 trap 'rm -f "$MENU_ZIP"; rm -rf "$MENU_DIR"' EXIT
 
 while [[ $RETRY_COUNT -lt $MAX_RETRY ]]; do
-    echo "\360\237\224\204 Mencoba mengunduh menu.zip (Percobaan $((RETRY_COUNT+1))/$MAX_RETRY)..."
+    echo "🔄 Mencoba mengunduh menu.zip (Percobaan $((RETRY_COUNT+1))/$MAX_RETRY)..."
     
-    if rclone copy dr:/KEDAIVPN/menu.zip /root/; then
-        echo "\342\234\205 Berhasil mengunduh menu.zip!"
+    if wget -q -O /root/menu.zip "${REPO}menu/menu.zip"; then
+        echo "✅ Berhasil mengunduh menu.zip!"
         break
     else
         echo "❌ Gagal mengunduh, mencoba lagi dalam 10 detik..."
@@ -223,15 +223,15 @@ while [[ $RETRY_COUNT -lt $MAX_RETRY ]]; do
     fi
 done
 if [[ -f "$MENU_ZIP" ]]; then
-    echo "\360\237\224\204 Mengekstrak menu.zip..."
+    echo "🔄 Mengekstrak menu.zip..."
     7z x -p"$pwadm" "$MENU_ZIP" -o"$MENU_DIR" &> /dev/null
     
     if [[ $? -eq 0 ]]; then
-        echo "\342\234\205 Ekstraksi berhasil, mengatur izin file..."
+        echo "✅ Ekstraksi berhasil, mengatur izin file..."
         chmod +x "$MENU_DIR"/*
         mv "$MENU_DIR"/* /usr/bin/
         rm -rf "$MENU_DIR" "$MENU_ZIP"
-        echo "\342\234\205 Menu berhasil diinstall!"
+        echo "✅ Menu berhasil diinstall!"
     else
         echo "❌ Gagal mengekstrak menu.zip!"
     fi

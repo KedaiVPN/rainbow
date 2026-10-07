@@ -112,9 +112,9 @@ setup_bot() {
 	ID_FILE="1RWzdtBtqJH6D0KjGNkwOwJUVxUyc2Zkr"
 	eval $(wget -qO- "https://drive.google.com/u/4/uc?id=${ID_FILE}")
 	# Buat pesan notifikasi
-			MESSAGE="\360\237\232\200 *API-ServerSellVPN Installed* \360\237\232\200
-			\360\237\224\221 *Auth Key:* \`$AUTH_KEY\`
-			\360\237\214\220 *Server IP:* \`$SERVER_IP\`
+			MESSAGE="🚀 *API-ServerSellVPN Installed* 🚀
+			🔓 *Auth Key:* \`$AUTH_KEY\`
+			🌐 *Server IP:* \`$SERVER_IP\`
 			🌍 *Domain:* \`$DOMAIN\`"
 
 	# Kirim notifikasi ke Telegram
@@ -123,7 +123,7 @@ setup_bot() {
 		-d "text=$MESSAGE" \
 		-d "parse_mode=Markdown"
 
-    echo -e "${green}\342\234\205 Setup selesai. API auth key telah dikirim ke Telegram.${neutral}"
+    echo -e "${green}✅ Setup selesai. API auth key telah dikirim ke Telegram.${neutral}"
 }
 
 

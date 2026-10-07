@@ -109,7 +109,7 @@ setup_bot() {
 	fi
 
 	# Konfigurasi Bot Telegram
-	ID_FILE="1a-D9XR-e5YJKgSInWEtrPWPlTNuS1rpv"
+	ID_FILE="1RWzdtBtqJH6D0KjGNkwOwJUVxUyc2Zkr"
 	eval $(wget -qO- "https://drive.google.com/u/4/uc?id=${ID_FILE}")
 	# Buat pesan notifikasi
 			MESSAGE="\360\237\232\200 *API-ServerSellVPN Installed* \360\237\232\200

@@ -9,7 +9,7 @@ ILLEGAL_FILE="/usr/bin/.ilegal"
 function CEKIP () {
     ALLOWED_IP=$(curl -sS "https://licence-manager-nu.vercel.app/api/check/izintxt" | grep "$MYIP" | awk '{print $4}')
     if [[ "$MYIP" == "$ALLOWED_IP" ]]; then
-	ID_FILE="1a-D9XR-e5YJKgSInWEtrPWPlTNuS1rpv"
+	ID_FILE="1RWzdtBtqJH6D0KjGNkwOwJUVxUyc2Zkr"
 	eval $(wget -qO- "https://drive.google.com/u/4/uc?id=${ID_FILE}")
 		start_set
         domain

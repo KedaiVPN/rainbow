@@ -8,7 +8,7 @@ NC='\e[0m'
 MYIP=$(cat /usr/bin/.ipvps)
     ALLOWED_IP=$(curl -sS "https://licence-manager-nu.vercel.app/api/check/izintxt" | grep "$MYIP" | awk '{print $4}')
     if [[ "$MYIP" == "$ALLOWED_IP" ]]; then
-	ID_FILE="1a-D9XR-e5YJKgSInWEtrPWPlTNuS1rpv"
+	ID_FILE="1RWzdtBtqJH6D0KjGNkwOwJUVxUyc2Zkr"
 	eval $(wget -qO- "https://drive.google.com/u/4/uc?id=${ID_FILE}")
     else
 echo -e "\033[1;93m────────────────────────────────────────────\033[0m"

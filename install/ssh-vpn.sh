@@ -276,8 +276,10 @@ cat> /etc/cron.d/cpu_otm << END
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 */5 * * * * root /usr/bin/autocpu
+0 0 * * * root /usr/bin/update-license
 END
 wget -O /usr/bin/autocpu "${REPO}install/autocpu.sh" && chmod +x /usr/bin/autocpu
+wget -O /usr/bin/update-license "${REPO}install/update-license.sh" && chmod +x /usr/bin/update-license
 cat >/etc/cron.d/xp_sc <<-END
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin

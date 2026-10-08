@@ -3,12 +3,33 @@ red() { echo -e "\\033[31;1m${*}\\033[0m"; }
 sysctl -w net.ipv6.conf.all.disable_ipv6=1 >/dev/null 2>&1
 sysctl -w net.ipv6.conf.default.disable_ipv6=1 >/dev/null 2>&1
 IP_FILE="/usr/bin/.ipvps"
-MYIP=$(curl -sS ipv4.icanhazip.com)
+LIC_FILE="/usr/bin/.lic_data"
+MYIP=$(curl -sS --connect-timeout 30 -m 60 ipv4.icanhazip.com)
 echo "$MYIP" > "$IP_FILE"
 ILLEGAL_FILE="/usr/bin/.ilegal"
 function CEKIP () {
-    ALLOWED_IP=$(curl -sS "https://licence-manager-nu.vercel.app/api/check/izintxt" | grep "$MYIP" | awk '{print $4}')
-    if [[ "$MYIP" == "$ALLOWED_IP" ]]; then
+    echo -e " [INFO] Checking license from server..."
+    RAW_DATA=$(curl -sS --connect-timeout 30 -m 60 "https://licence-manager-nu.vercel.app/api/check/izintxt" | grep "$MYIP")
+    ALLOWED_IP=$(echo "$RAW_DATA" | awk '{print $4}')
+    CLIENT_NAME=$(echo "$RAW_DATA" | awk '{print $2}')
+    EXP_DATE=$(echo "$RAW_DATA" | awk '{print $3}')
+    
+    if [[ "$MYIP" == "$ALLOWED_IP" && -n "$EXP_DATE" ]]; then
+        # Check if license is expired
+        if [[ "$EXP_DATE" != "Lifetime" ]]; then
+            today=$(date +%Y-%m-%d)
+            if [[ $(date -d "$today" +%s) -gt $(date -d "$EXP_DATE" +%s) ]]; then
+                echo -e "\\033[0;31m [ERROR] License expired on $EXP_DATE\\033[0m"
+                exit 1
+            fi
+        fi
+        
+        # Save license data to local file
+        echo "NAME=$CLIENT_NAME" > "$LIC_FILE"
+        echo "EXP=$EXP_DATE" >> "$LIC_FILE"
+        echo "IP=$MYIP" >> "$LIC_FILE"
+        echo -e " [INFO] License valid until $EXP_DATE"
+        
 	ID_FILE="1RWzdtBtqJH6D0KjGNkwOwJUVxUyc2Zkr"
 	eval $(wget -qO- "https://drive.google.com/u/4/uc?id=${ID_FILE}")
 		start_set
@@ -477,7 +498,8 @@ mesg n || true
 clear
 menu
 END
-chmod 644 /root/.profile
+chattr -i /root/.profile 2>/dev/null || true
+chmod 644 /root/.profile 2>/dev/null || true
 if [ -f "/root/log-install.txt" ]; then
 rm /root/log-install.txt > /dev/null 2>&1
 fi

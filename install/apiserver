@@ -58,13 +58,13 @@ setup_bot() {
 
     NODE_VERSION=$(node -v 2>/dev/null | grep -oP '(?<=v)\d+' || echo "0")
 
-    if [ "$NODE_VERSION" -lt 18 ]; then
+    if [ "$NODE_VERSION" -lt 22 ]; then
         echo -e "${yellow}Installing Node.js & npm...${neutral}"
         apt-get update -y || true
         apt-get install -y ca-certificates curl gnupg lsb-release || true
         
         # Try Nodesource setup
-        curl -fsSL https://deb.nodesource.com/setup_20.x | bash - || true
+        curl -fsSL https://deb.nodesource.com/setup_22.x | bash - || true
         apt-get update -y || true
         # NodeSource's nodejs package includes npm; installing distro npm separately causes conflicts.
         apt-get install -y nodejs || true

@@ -166,14 +166,29 @@ systemctl stop badvpn1 badvpn2 badvpn3
 systemctl enable badvpn1 badvpn2 badvpn3
 systemctl start badvpn1 badvpn2 badvpn3
 cd
+# Ensure root can login via password (critical for non-AWS VPS)
+sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+sed -i 's/PermitRootLogin no/PermitRootLogin yes/' /etc/ssh/sshd_config
+if ! grep -q "^PermitRootLogin" /etc/ssh/sshd_config; then
+    echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+fi
+
 sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
-sed -i '/Port 22/a Port 500' /etc/ssh/sshd_config
-sed -i '/Port 22/a Port 40000' /etc/ssh/sshd_config
-sed -i '/Port 22/a Port 51443' /etc/ssh/sshd_config
-sed -i '/Port 22/a Port 58080' /etc/ssh/sshd_config
-sed -i '/Port 22/a Port 200' /etc/ssh/sshd_config
-sed -i '/Port 22/a Port 22' /etc/ssh/sshd_config
-/etc/init.d/ssh restart
+
+# Add alternative SSH ports (avoid duplicate Port 22)
+for PORT in 22 200 500 40000 51443 58080; do
+    if ! grep -q "^Port $PORT" /etc/ssh/sshd_config; then
+        echo "Port $PORT" >> /etc/ssh/sshd_config
+    fi
+done
+
+# Validate SSH config before restart
+if sshd -t 2>/dev/null; then
+    /etc/init.d/ssh restart
+else
+    echo "WARNING: sshd_config has errors, keeping current config"
+fi
 
 echo "=== Install Dropbear ==="
 # install dropbear

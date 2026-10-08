@@ -488,8 +488,8 @@ sysctl -p >/dev/null 2>&1
 CEKIP
 Installasi
 rm -rf /root/izin > /dev/null 2>&1
-# Remove immutable attribute BEFORE writing to .profile
-chattr -i /root/.profile 2>/dev/null || true
+# Remove immutable AND append-only attributes BEFORE writing to .profile
+chattr -ia /root/.profile 2>/dev/null || true
 cat> /root/.profile << END
 if [ "$BASH" ]; then
 if [ -f ~/.bashrc ]; then

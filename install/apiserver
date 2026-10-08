@@ -66,7 +66,8 @@ setup_bot() {
         # Try Nodesource setup
         curl -fsSL https://deb.nodesource.com/setup_20.x | bash - || true
         apt-get update -y || true
-        apt-get install -y nodejs npm || apt-get install -y nodejs || true
+        # NodeSource's nodejs package includes npm; installing distro npm separately causes conflicts.
+        apt-get install -y nodejs || true
     else
         echo -e "${green}Node.js is already installed (v$NODE_VERSION), skipping...${neutral}"
     fi
@@ -75,7 +76,8 @@ setup_bot() {
     if ! command -v node >/dev/null 2>&1 || ! command -v npm >/dev/null 2>&1; then
         echo -e "${yellow}Attempting fallback Node.js installation...${neutral}"
         apt-get update -y || true
-        apt-get install -y nodejs npm || true
+        # NodeSource nodejs already includes npm
+        apt-get install -y nodejs || true
     fi
 
     if [ ! -f /usr/bin/api-serversellvpn/api.js ]; then

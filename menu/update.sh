@@ -230,6 +230,11 @@ if [[ -f "$MENU_ZIP" ]]; then
         echo "✅ Ekstraksi berhasil, mengatur izin file..."
         chmod +x "$MENU_DIR"/*
         mv "$MENU_DIR"/* /usr/bin/
+        
+        # Replace URL lama (KedaiVPN/izin) dengan endpoint Vercel di semua file menu
+        echo "🔄 Memperbarui endpoint lisensi ke Vercel..."
+        find /usr/bin/ -maxdepth 1 -type f -exec sed -i 's|https://raw.githubusercontent.com/KedaiVPN/izin/main/ip|https://licence-manager-nu.vercel.app/api/check/izintxt|g' {} \; 2>/dev/null || true
+        
         rm -rf "$MENU_DIR" "$MENU_ZIP"
         echo "✅ Menu berhasil diinstall!"
     else

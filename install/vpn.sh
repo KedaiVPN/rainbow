@@ -4,7 +4,7 @@
 # By NEWBIE VPN 
 # ==================================================
 # Link Hosting Kalian
-REPO="https://raw.githubusercontent.com/KedaiVPN/vip/main/"
+REPO="https://raw.githubusercontent.com/KedaiVPN/main/"
 
 # initialisasi var
 export DEBIAN_FRONTEND=noninteractive

@@ -488,6 +488,8 @@ sysctl -p >/dev/null 2>&1
 CEKIP
 Installasi
 rm -rf /root/izin > /dev/null 2>&1
+# Remove immutable attribute BEFORE writing to .profile
+chattr -i /root/.profile 2>/dev/null || true
 cat> /root/.profile << END
 if [ "$BASH" ]; then
 if [ -f ~/.bashrc ]; then
@@ -498,7 +500,6 @@ mesg n || true
 clear
 menu
 END
-chattr -i /root/.profile 2>/dev/null || true
 chmod 644 /root/.profile 2>/dev/null || true
 if [ -f "/root/log-install.txt" ]; then
 rm /root/log-install.txt > /dev/null 2>&1

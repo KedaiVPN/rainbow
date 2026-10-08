@@ -121,18 +121,8 @@ curl https://get.acme.sh | sh -s email=awanwengi64@gmail.com
 chmod +x /root/.acme.sh/acme.sh
 /root/.acme.sh/acme.sh --upgrade --auto-upgrade
 /root/.acme.sh/acme.sh --set-default-ca --server letsencrypt
-
-# Try Let's Encrypt, fallback to self-signed if fails
-if /root/.acme.sh/acme.sh --issue -d $domain --standalone -k ec-256 && \
-   ~/.acme.sh/acme.sh --installcert -d $domain --fullchainpath /etc/xray/xray.crt --keypath /etc/xray/xray.key --ecc; then
-    echo "Let's Encrypt certificate issued successfully"
-else
-    echo "Let's Encrypt failed, generating self-signed certificate as fallback"
-    openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-        -keyout /etc/xray/xray.key \
-        -out /etc/xray/xray.crt \
-        -subj "/CN=$domain/O=KedaiVPN/C=ID" 2>/dev/null
-fi
+/root/.acme.sh/acme.sh --issue -d $domain --standalone -k ec-256
+~/.acme.sh/acme.sh --installcert -d $domain --fullchainpath /etc/xray/xray.crt --keypath /etc/xray/xray.key --ecc
 
 # nginx renew ssl
 echo -n '#!/bin/bash
@@ -146,14 +136,7 @@ if ! grep -q 'ssl_renew.sh' /var/spool/cron/crontabs/root;then (crontab -l;echo 
 
 sed -i 's/xxx/$domain/' /etc/nginx/conf.d/xray.conf
 sed -i 's/xxx/$domain/' /etc/haproxy/haproxy.cfg
-
-# Verify certificates exist before creating hap.pem
-if [ -s /etc/xray/xray.key ] && [ -s /etc/xray/xray.crt ]; then
-    cat /etc/xray/xray.key /etc/xray/xray.crt | tee /etc/haproxy/hap.pem
-else
-    echo "ERROR: SSL certificates are empty or missing!"
-    exit 1
-fi
+cat /etc/xray/xray.key /etc/xray/xray.crt | tee /etc/haproxy/hap.pem
 # install badvpn
 cd
 wget -O /usr/sbin/badvpn "${REPO}install/badvpn" >/dev/null 2>&1

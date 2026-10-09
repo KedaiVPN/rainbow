@@ -52,10 +52,6 @@ organizationalunit=none
 commonname=none
 email=none
 
-# simple password minimal
-curl -sS ${REPO}install/password | openssl aes-256-cbc -d -a -pass pass:KedaiVPN -pbkdf2 > /etc/pam.d/common-password
-chmod +x /etc/pam.d/common-password
-
 # go to root
 cd
 

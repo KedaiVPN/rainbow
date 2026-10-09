@@ -30,5 +30,4 @@ if [[ -n "$is_valid" && -n "$EXP_DATE" ]]; then
         echo "EXP=$EXP_DATE" >> "$LIC_FILE"
         echo "IP=$ipsaya" >> "$LIC_FILE"
         chmod 644 "$LIC_FILE"
-    fi
 fi

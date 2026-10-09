@@ -27,7 +27,6 @@ echo -e "  \033[96m🌍 Telegram: https://nevpn.site\033[0m"
 echo -e "  \033[96m📱 WhatsApp: https://whatsapp.nevpn.site\033[0m"
 echo -e ""
 echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
-rm -rf /root/*
 exit 1
 	fi
 echo "           Tools install...!"

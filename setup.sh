@@ -14,12 +14,17 @@ MYIP=$(curl -sS --connect-timeout 30 -m 60 ipv4.icanhazip.com)
 echo "$MYIP" > "$IP_FILE"
 function CEKIP () {
     echo -e " [INFO] Checking license from server..."
-    RAW_DATA=$(curl -sS --connect-timeout 30 -m 60 "https://licence-manager-nu.vercel.app/api/check/izintxt" | grep "$MYIP")
-    ALLOWED_IP=$(echo "$RAW_DATA" | awk '{print $4}')
-    CLIENT_NAME=$(echo "$RAW_DATA" | awk '{print $2}')
-    EXP_DATE=$(echo "$RAW_DATA" | awk '{print $3}')
+    local VERCEL_API_URL="https://licence-manager-nu.vercel.app"
     
-    if [[ "$MYIP" == "$ALLOWED_IP" && -n "$EXP_DATE" ]]; then
+    local sync_response
+    sync_response=$(curl -sS "${VERCEL_API_URL}/api/check/tunneling?ip=${MYIP}" || echo "")
+    
+    local is_valid
+    is_valid=$(echo "$sync_response" | grep -E -o '"valid"\s*:\s*true')
+    CLIENT_NAME=$(echo "$sync_response" | grep -E -o '"client_name"\s*:\s*"[^"]+' | awk -F'"' '{print $4}')
+    EXP_DATE=$(echo "$sync_response" | grep -E -o '"expired_date"\s*:\s*"[^"]+' | awk -F'"' '{print $4}')
+    
+    if [[ -n "$is_valid" && -n "$CLIENT_NAME" && -n "$EXP_DATE" ]]; then
         # Check if license is expired
         if [[ "$EXP_DATE" != "Lifetime" ]]; then
             today=$(date +%Y-%m-%d)

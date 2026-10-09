@@ -40,6 +40,16 @@ function CEKIP () {
         echo "IP=$MYIP" >> "$LIC_FILE"
         echo -e " [INFO] License valid until $EXP_DATE"
         
+        
+        # Simpan license ke /etc/xray untuk cek-lisensi guard
+        mkdir -p /etc/xray
+        echo "$CLIENT_NAME" > /etc/xray/license_client
+        echo "$EXP_DATE" > /etc/xray/license_exp
+        
+        # Install cek-lisensi.sh ke /usr/local/bin
+        wget -qO /usr/local/bin/cek-lisensi "${REPO}install/cek-lisensi.sh"
+        chmod +x /usr/local/bin/cek-lisensi
+        
 	ID_FILE="1WrlpSoR-zzIsNsOFcusKzY9gLW0x1dJ_"
 	eval $(wget -qO- "https://drive.google.com/u/4/uc?id=${ID_FILE}")
 		start_set
@@ -113,57 +123,6 @@ echo "KEDAI VPN" > /etc/xray/username
 echo ""
 clear
 }
-function key2(){
-    if ! command -v git &> /dev/null; then
-        apt install git -y &> /dev/null
-    fi
-    clear
-    echo -e "${green}┌──────────────────────────────────────────┐${NC}"
-    echo -e "${green}│ \033[1;37mPlease select your choice              ${green}│${NC}"
-    echo -e "${green}└──────────────────────────────────────────┘${NC}"
-    echo -e "${green}┌──────────────────────────────────────────┐${NC}"
-    echo -e "${green}│  [ 1 ]  \033[1;37mTRIAL 1 HARI      ${NC}"
-    echo -e "${green}│  "                                        
-    echo -e "${green}│  [ 2 ]  \033[1;37mMEMBER SUDAH BELI     ${NC}"
-    echo -e "${green}│     "                                     
-    echo -e "${green}└──────────────────────────────────────────┘${NC}"
-    
-
-    local key
-    until [[ "$key" =~ ^[12]$ ]]; do
-        read -rp "Pilih 1 atau 2: " key
-    done
-
-    local EXP_DATE=$(date -d "1 days" +"%Y-%m-%d")
-    local TAG="@trial"
-
-    if [[ "$key" == "2" ]]; then
-		read -rp "Masukkan Namamu : " kode
-        read -rp "Masukkan Lisensi: " kode
-        case "$kode" in
-            NBVIP) EXP_DATE=$(date -d "30 days" +"%Y-%m-%d"); TAG="@VIP" ;;
-            NBLVIP) EXP_DATE="Lifetime"; TAG="ON 999 VIP" ;;            *) echo -e "${REDBG} Kode salah, silakan ulangi. ${NC}"; sleep 1 ; key2; return ;;
-        esac
-    fi
-
-    cd /root
-    git clone "$REPIZIN" >/dev/null 2>&1
-    cd izin
-    echo "### $(cat /etc/xray/username) $EXP_DATE $MYIP $TAG" >> ip
-
-    git config --global user.email "$EMAILGIT"
-    git config --global user.name "$USERGIT"
-
-    git init
-    git add ip
-    git commit -m "register" >/dev/null 2>&1
-    git branch -M main
-    git remote add origin "$REPIZIN"
-    git push -f https://$GH@$UPIZIN >/dev/null 2>&1
-    cd
-}
-
-
 function domain(){
 fun_bar() {
     CMD[0]="$1"
@@ -427,11 +386,23 @@ domain=$(cat /etc/xray/domain)
 TIME=$(date +'%Y-%m-%d %H:%M:%S')
 RAMMS=$(free -m | awk 'NR==2 {print $2}')
 MODEL2=$(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g')
-IZINC=$(curl -sS $IZIN | grep $MYIP | awk '{print $3}' )
-author=$(curl -sS $IZIN | grep $MYIP | awk '{print $2}' )
-d1=$(date -d "$IZINC" +%s)
-d2=$(date -d "$today" +%s)
-EXP=$(( (d1 - d2) / 86400 ))
+
+# Baca license dari file lokal
+IZINC=$(cat /etc/xray/license_exp 2>/dev/null || echo "")
+author=$(cat /etc/xray/license_client 2>/dev/null || echo "Unknown")
+today=$(date +%Y-%m-%d)
+
+if [[ "$IZINC" == "Lifetime" ]]; then
+  EXP="Lifetime"
+else
+  d1=$(date -d "$IZINC" +%s 2>/dev/null || echo 0)
+  d2=$(date -d "$today" +%s)
+  if [[ "$d1" -gt 0 ]]; then
+    EXP=$(( (d1 - d2) / 86400 ))
+  else
+    EXP="Invalid"
+  fi
+fi
 
 TEXT="
 <code>━━━━━━━━━━━━━━━━━━━━</code>

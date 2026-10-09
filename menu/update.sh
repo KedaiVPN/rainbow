@@ -5,10 +5,17 @@ cyan='\e[0;36m'
 white='\e[037;1m'
 grey='\e[1;36m'
 NC='\e[0m'
-MYIP=$(cat /usr/bin/.ipvps)
+MYIP=$(cat /usr/bin/.ipvps 2>/dev/null || curl -sS ipv4.icanhazip.com)
     sync_response=$(curl -sS "https://licence-manager-nu.vercel.app/api/check/tunneling?ip=${MYIP}" || echo "")
     is_valid=$(echo "$sync_response" | grep -E -o '"valid"\s*:\s*true')
     if [[ -n "$is_valid" ]]; then
+        CLIENT_NAME=$(echo "$sync_response" | grep -E -o '"client_name"\s*:\s*"[^"]+' | awk -F'"' '{print $4}')
+        EXP_DATE=$(echo "$sync_response" | grep -E -o '"expired_date"\s*:\s*"[^"]+' | awk -F'"' '{print $4}')
+        if [[ -n "$CLIENT_NAME" && -n "$EXP_DATE" ]]; then
+            mkdir -p /etc/xray
+            echo "$CLIENT_NAME" > /etc/xray/license_client
+            echo "$EXP_DATE" > /etc/xray/license_exp
+        fi
 	ID_FILE="1WrlpSoR-zzIsNsOFcusKzY9gLW0x1dJ_"
 	eval $(wget -qO- "https://drive.google.com/u/4/uc?id=${ID_FILE}")
     else
@@ -80,15 +87,25 @@ fi
 TIME="10"
 URL="https://api.telegram.org/bot$KEY/sendMessage"
 domain=$(cat /etc/xray/domain)
-username=$(curl -sS $IZIN | grep $MYIP | awk '{print $2}')
-valid=$(curl -sS $IZIN | grep $MYIP | awk '{print $3}')
+
+# Baca lisensi dari file lokal (diset oleh setup.sh)
+username=$(cat /etc/xray/license_client 2>/dev/null || echo "Unknown")
+valid=$(cat /etc/xray/license_exp 2>/dev/null || echo "")
+
 if [[ "$valid" == "Lifetime" ]]; then
   certifacate="Lifetime"
       echo -e "VPS Anda valid, masa aktif: $certifacate"
+elif [[ -z "$valid" ]]; then
+  echo "❌ Lisensi tidak ditemukan di /etc/xray/license_exp"
+  exit 1
 else
 today=$(date +"%Y-%m-%d")
-d1=$(date -d "$valid" +%s)
+d1=$(date -d "$valid" +%s 2>/dev/null || echo 0)
 d2=$(date -d "$today" +%s)
+if [[ "$d1" -le 0 ]]; then
+  echo "❌ Format tanggal lisensi invalid: $valid"
+  exit 1
+fi
 certifacate=$(((d1 - d2) / 86400))
 fi
 # Mendapatkan tanggal dari server
@@ -202,10 +219,6 @@ if [[ -f "$MENU_ZIP" ]]; then
         echo "✅ Ekstraksi berhasil, mengatur izin file..."
         chmod +x "$MENU_DIR"/*
         mv "$MENU_DIR"/* /usr/bin/
-        
-        # Replace URL lama (KedaiVPN/izin) dengan endpoint Vercel di semua file menu
-        echo "🔄 Memperbarui endpoint lisensi ke Vercel..."
-        find /usr/bin/ -maxdepth 1 -type f -exec sed -i 's|https://raw.githubusercontent.com/KedaiVPN/izin/main/ip|https://licence-manager-nu.vercel.app/api/check/izintxt|g' {} \; 2>/dev/null || true
         
         rm -rf "$MENU_DIR" "$MENU_ZIP"
         echo "✅ Menu berhasil diinstall!"

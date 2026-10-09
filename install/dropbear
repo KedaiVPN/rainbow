@@ -1,3 +1,6 @@
+# Enable Dropbear service
+NO_START=0
+
 # The TCP port that Dropbear listens on
 DROPBEAR_PORT=143
 

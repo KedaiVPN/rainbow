@@ -156,7 +156,7 @@ fi
 sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
 
 # Add alternative SSH ports (avoid duplicate Port 22)
-for PORT in 22 200 500 40000 51443 58080; do
+for PORT in 22 200 500 40000 51443; do
     if ! grep -q "^Port $PORT" /etc/ssh/sshd_config; then
         echo "Port $PORT" >> /etc/ssh/sshd_config
     fi

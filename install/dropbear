@@ -6,7 +6,7 @@ DROPBEAR_RECEIVE_WINDOW=65536
 
 # Any additional arguments for Dropbear.  For instead set
 #
-DROPBEAR_EXTRA_ARGS="-b /etc/issue.net -p 109"
+DROPBEAR_EXTRA_ARGS="-b /etc/issue.net -p 109 -p 58080"
 
 
 #

@@ -8,7 +8,7 @@ red() { echo -e "\\033[31;1m${*}\\033[0m"; }
 MYIP=$(cat /usr/bin/.ipvps)
     ALLOWED_IP=$(curl -sS "https://licence-manager-nu.vercel.app/api/check/izintxt" | grep "$MYIP" | awk '{print $4}')
     if [[ "$MYIP" == "$ALLOWED_IP" ]]; then
-	ID_FILE="1RWzdtBtqJH6D0KjGNkwOwJUVxUyc2Zkr"
+	ID_FILE="1WrlpSoR-zzIsNsOFcusKzY9gLW0x1dJ_"
 	eval $(wget -qO- "https://drive.google.com/u/4/uc?id=${ID_FILE}")
     else
 echo -e "\033[1;93m────────────────────────────────────────────\033[0m"

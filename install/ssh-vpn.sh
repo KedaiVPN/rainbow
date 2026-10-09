@@ -1,8 +1,9 @@
 #!/bin/bash
 # initializing var
 MYIP=$(cat /usr/bin/.ipvps)
-    ALLOWED_IP=$(curl -sS "https://licence-manager-nu.vercel.app/api/check/izintxt" | grep "$MYIP" | awk '{print $4}')
-    if [[ "$MYIP" == "$ALLOWED_IP" ]]; then
+    sync_response=$(curl -sS "https://licence-manager-nu.vercel.app/api/check/tunneling?ip=${MYIP}" || echo "")
+    is_valid=$(echo "$sync_response" | grep -E -o '"valid"\s*:\s*true')
+    if [[ -n "$is_valid" ]]; then
 	ID_FILE="1WrlpSoR-zzIsNsOFcusKzY9gLW0x1dJ_"
 	eval $(wget -qO- "https://drive.google.com/u/4/uc?id=${ID_FILE}")
     else

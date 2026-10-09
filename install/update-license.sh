@@ -18,18 +18,17 @@ if [[ -z "$ipsaya" ]]; then
     exit 1
 fi
 
-data_ip="https://licence-manager-nu.vercel.app/api/check/izintxt"
-RAW_DATA=$(curl -sS --connect-timeout 30 -m 60 "$data_ip" 2>/dev/null | grep "$ipsaya")
+# License check using JSON API (same as Dynamic)
+sync_response=$(curl -sS --connect-timeout 30 -m 60 "https://licence-manager-nu.vercel.app/api/check/tunneling?ip=${ipsaya}" 2>/dev/null || echo "")
 
-if [[ -n "$RAW_DATA" ]]; then
-    CLIENT_NAME=$(echo "$RAW_DATA" | awk '{print $2}')
-    EXP_DATE=$(echo "$RAW_DATA" | awk '{print $3}')
-    ALLOWED_IP=$(echo "$RAW_DATA" | awk '{print $4}')
+is_valid=$(echo "$sync_response" | grep -E -o '"valid"\s*:\s*true')
+CLIENT_NAME=$(echo "$sync_response" | grep -E -o '"client_name"\s*:\s*"[^"]+' | awk -F'"' '{print $4}')
+EXP_DATE=$(echo "$sync_response" | grep -E -o '"expired_date"\s*:\s*"[^"]+' | awk -F'"' '{print $4}')
 
-    if [[ -n "$EXP_DATE" && -n "$ALLOWED_IP" ]]; then
+if [[ -n "$is_valid" && -n "$EXP_DATE" ]]; then
         echo "NAME=$CLIENT_NAME" > "$LIC_FILE"
         echo "EXP=$EXP_DATE" >> "$LIC_FILE"
-        echo "IP=$ALLOWED_IP" >> "$LIC_FILE"
+        echo "IP=$ipsaya" >> "$LIC_FILE"
         chmod 644 "$LIC_FILE"
     fi
 fi

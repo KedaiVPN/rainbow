@@ -5,23 +5,20 @@ WH='\033[1;37m'
 LIC_FILE="/usr/bin/.lic_data"
 IP_FILE="/usr/bin/.ipvps"
 ipsaya=$(cat "$IP_FILE" 2>/dev/null)
-data_ip="https://licence-manager-nu.vercel.app/api/check/izintxt"
 
 # Function to fetch license from Vercel and save to local file
 fetch_license_from_vercel() {
     echo -e " [INFO] Fetching license data from server..."
-    RAW_DATA=$(curl -sS --connect-timeout 30 -m 60 "$data_ip" 2>/dev/null | grep "$ipsaya")
+    # License check using JSON API (same as Dynamic)
+    local sync_response
+    sync_response=$(curl -sS --connect-timeout 30 -m 60 "https://licence-manager-nu.vercel.app/api/check/tunneling?ip=${ipsaya}" 2>/dev/null || echo "")
     
-    if [[ -z "$RAW_DATA" ]]; then
-        echo -e "${RED} [ERROR] Failed to fetch license data from server${NC}"
-        return 1
-    fi
+    local is_valid
+    is_valid=$(echo "$sync_response" | grep -E -o '"valid"\s*:\s*true')
+    CLIENT_NAME=$(echo "$sync_response" | grep -E -o '"client_name"\s*:\s*"[^"]+' | awk -F'"' '{print $4}')
+    EXP_DATE=$(echo "$sync_response" | grep -E -o '"expired_date"\s*:\s*"[^"]+' | awk -F'"' '{print $4}')
     
-    CLIENT_NAME=$(echo "$RAW_DATA" | awk '{print $2}')
-    EXP_DATE=$(echo "$RAW_DATA" | awk '{print $3}')
-    ALLOWED_IP=$(echo "$RAW_DATA" | awk '{print $4}')
-    
-    if [[ -z "$EXP_DATE" || -z "$ALLOWED_IP" ]]; then
+    if [[ -z "$is_valid" || -z "$EXP_DATE" ]]; then
         echo -e "${RED} [ERROR] Invalid license data from server${NC}"
         return 1
     fi
@@ -29,7 +26,7 @@ fetch_license_from_vercel() {
     # Save to local file
     echo "NAME=$CLIENT_NAME" > "$LIC_FILE"
     echo "EXP=$EXP_DATE" >> "$LIC_FILE"
-    echo "IP=$ALLOWED_IP" >> "$LIC_FILE"
+    echo "IP=$ipsaya" >> "$LIC_FILE"
     echo -e " [INFO] License data saved to local file"
     return 0
 }

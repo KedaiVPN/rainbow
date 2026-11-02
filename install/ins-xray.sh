@@ -20,6 +20,13 @@ domain="newbie.dev"
 fi
 mkdir -p /home/vps/public_html
 uuid=$(cat /proc/sys/kernel/random/uuid)
+# Pasang binary xray hanya jika belum ada, lalu perbaiki log untuk www-data
+if [ ! -x /usr/local/bin/xray ]; then
+bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
+fi
+mkdir -p /var/log/xray
+touch /var/log/xray/access.log /var/log/xray/error.log
+chown -R www-data:www-data /var/log/xray
 cat > /etc/xray/config.json << END
 {
   "log" : {
